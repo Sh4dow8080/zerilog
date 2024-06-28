@@ -1,6 +1,4 @@
-import { LogEvent } from "../../zerilog/src/LogEvent";
-import { ILogZink } from '../../zerilog/src/ILogZink';
-import { LogEventLevel } from "../../zerilog/src/LogEventLevel";
+import { ILogZink, LogEvent, LogEventLevel } from "zerilog";
 export default class ConsoleZink implements ILogZink {
 	log(event: LogEvent): void {
 		const context = combineContexts(event.context, event.message.context);

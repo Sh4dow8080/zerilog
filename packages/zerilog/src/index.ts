@@ -2,12 +2,15 @@ import { ILogZink } from "./ILogZink";
 import { LogEvent } from "./LogEvent";
 import { LogEventLevel } from "./LogEventLevel";
 import { LoggerConfiguration } from "./LoggerConfiguration";
-import { LogEventLevelResolver } from "./MinimumLevelConfiguration";
+import { LogEventLevelResolver, MinimumLevelConfiguration } from './MinimumLevelConfiguration';
+import { WriteToConfiguration } from "./WriteToConfiguration";
 
 export {
 	LogEvent,
 	LoggerConfiguration,
+	WriteToConfiguration,
+	MinimumLevelConfiguration,
 	type ILogZink,
-	type LogEventLevel,
+	LogEventLevel,
 	type LogEventLevelResolver,
 };
