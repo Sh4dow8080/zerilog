@@ -4,7 +4,7 @@ export class LogEventMessage {
 	constructor(
 		public readonly message: string,
 		public readonly args: unknown[],
-		private readonly serializer: (value: unknown) => string
+		readonly serializer: (value: unknown) => string
 	) {
 		const { renderedMessage: _renderedMessage, params } = formatAndGetKeys(
 			{

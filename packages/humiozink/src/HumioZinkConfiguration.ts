@@ -1,0 +1,13 @@
+export interface HumioZinkConfiguration {
+	ingestToken: string;
+	tags?: Map<string, string>;
+
+	// If you are using the community edition, you need to set this to "https://cloud.community.humio.com"
+	url?: "https://cloud.humio.com" | "https://cloud.community.humio.com";
+
+	// The maximum number of logs that can be sent in a single batch
+	batchSizeLimit?: number;
+
+	// The frequency at which the batch is sent to Humio
+	batchTimeout?: number;
+}
