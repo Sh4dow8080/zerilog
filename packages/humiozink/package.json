@@ -1,6 +1,6 @@
 {
 	"name": "@zerilog/humiozink",
-	"version": "0.0.0",
+	"version": "2.0.0",
 	"description": "Now I’m the model of a modern major general / The venerated Virginian veteran whose men are all / Lining up, to put me up on a pedestal / Writin’ letters to relatives / Embellishin’ my elegance and eloquence / But the elephant is in the room / The truth is in ya face when ya hear the British cannons go / BOOM",
 	"keywords": [],
 	"author": "Sh4dow8080 <sh4dowpp@gmail.com>",
@@ -22,9 +22,9 @@
 		"zerilog": "file:../zerilog"
 	},
 	"devDependencies": {
-		"typescript": "^5.5.2",
+		"@types/jest": "^29.5.12",
 		"jest": "^29.7.0",
 		"ts-jest": "^29.1.5",
-		"@types/jest": "^29.5.12"
+		"typescript": "^5.5.2"
 	}
 }
