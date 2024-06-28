@@ -59,12 +59,13 @@ export class Zerilog {
 		this.log(LogEventLevel.Fatal, message, ...args);
 
 	public forContext(name: string, value: any) {
-		this.context.set(name, value);
+		const newContext = new Map(this.context);
+		newContext.set(name, value);
 		return new Zerilog(
 			this.zinks,
 			this.enrichers,
 			this.minimumLevelResolver,
-			this.context
+			newContext
 		);
 	}
 }

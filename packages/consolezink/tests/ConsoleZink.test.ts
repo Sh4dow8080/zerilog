@@ -18,6 +18,7 @@ it("Should log a message", () => {
 		),
 		new Map([["Age", 42]])
 	);
+	
 	// Act
 	consoleZink.log(event);
 
