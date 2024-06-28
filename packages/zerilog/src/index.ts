@@ -1,9 +1,13 @@
-export default class Zerilog {
-	constructor() {
-		console.log("Hello World!");
-	}
+import { ILogZink } from "./ILogZink";
+import { LogEvent } from "./LogEvent";
+import { LogEventLevel } from "./LogEventLevel";
+import { LoggerConfiguration } from "./LoggerConfiguration";
+import { LogEventLevelResolver } from "./MinimumLevelConfiguration";
 
-	sayHello() {
-		return "Hello World!";
-	}
-}
+export {
+	LogEvent,
+	LoggerConfiguration,
+	type ILogZink,
+	type LogEventLevel,
+	type LogEventLevelResolver,
+};
