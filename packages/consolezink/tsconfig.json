@@ -1,13 +1,7 @@
 {
+    "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "module": "commonjs",
-        "esModuleInterop": true,
-        "target": "ES2022",
-        "moduleResolution": "node",
-        "sourceMap": false,
         "outDir": "lib",
-        "resolveJsonModule": true,
-        "downlevelIteration": false
     },
     "include": [
         "src/**/*"
