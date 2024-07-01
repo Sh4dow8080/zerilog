@@ -1,6 +1,8 @@
+type Primitive = string | number | boolean | null | undefined;
+
 export interface HumioZinkConfiguration {
 	ingestToken: string;
-	tags?: Map<string, string>;
+	tags?: Record<string, Primitive>;
 
 	// If you are using the community edition, you need to set this to "https://cloud.community.humio.com"
 	url?: "https://cloud.humio.com" | "https://cloud.community.humio.com";

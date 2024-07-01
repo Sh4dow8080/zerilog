@@ -11,7 +11,7 @@ export default class HumioZink implements ILogZink {
 			url: "https://cloud.humio.com",
 			batchSizeLimit: 50,
 			batchTimeout: 5000,
-			tags: new Map<string, string>(),
+			tags: {},
 			...this._configuration,
 		};
 	}
@@ -47,7 +47,7 @@ export default class HumioZink implements ILogZink {
 		const request = JSON.stringify([
 			{
 				events: this.batch,
-				tags: Object.fromEntries(this.configuration.tags),
+				tags: this.configuration.tags,
 			},
 		]);
 		const response = await fetch(
