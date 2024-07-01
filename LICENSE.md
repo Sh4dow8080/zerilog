@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2024 Sh4dow8080
+Copyright (c) 2024 sh4dow.dev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
