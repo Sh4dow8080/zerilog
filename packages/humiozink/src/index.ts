@@ -59,6 +59,7 @@ export default class HumioZink implements ILogZink {
 					"Authorization": `Bearer ${this.configuration.ingestToken}`,
 				},
 				body: request,
+				keepalive: true,
 			}
 		);
 
