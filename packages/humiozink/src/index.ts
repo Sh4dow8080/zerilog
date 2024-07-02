@@ -1,6 +1,7 @@
 import { ILogZink, LogEvent, LogEventLevel } from "zerilog";
 import { HumioEvent } from "./HumioEvent";
 import { HumioZinkConfiguration } from "./HumioZinkConfiguration";
+import stringifier from "./stringifier";
 
 export default class HumioZink implements ILogZink {
 	private batch: HumioEvent[] = [];
@@ -44,7 +45,7 @@ export default class HumioZink implements ILogZink {
 	private async sendBatch(): Promise<void> {
 		if (this.batch.length === 0) return;
 
-		const request = JSON.stringify([
+		const request = stringifier([
 			{
 				events: this.batch,
 				tags: this.configuration.tags,
