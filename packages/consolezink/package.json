@@ -2,7 +2,10 @@
   "name": "@zerilog/consolezink",
   "version": "2.0.3",
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "zerilog",
+    "consolezink"
+  ],
   "author": "sh4dow.dev <sh4dowpp@gmail.com>",
   "license": "ISC",
   "main": "lib/index.js",
