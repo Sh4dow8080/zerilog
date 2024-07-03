@@ -10,7 +10,7 @@
 	"author": "sh4dow.dev <sh4dowpp@gmail.com>",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Sh4dowdev/-zerilog"
+		"url": "https://github.com/Sh4dow8080/zerilog"
 	},
 	"license": "ISC",
 	"main": "lib/index.js",
