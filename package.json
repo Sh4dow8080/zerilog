@@ -11,6 +11,7 @@
 	"scripts": {
 		"test": "lerna run test",
 		"build": "lerna run build",
-		"lint": "lerna run lint"
+		"lint": "lerna run lint",
+		"publish": "npm run build && lerna publish"
 	}
 }
