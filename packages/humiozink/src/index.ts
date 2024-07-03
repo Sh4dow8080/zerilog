@@ -34,12 +34,14 @@ export default class HumioZink implements ILogZink {
 
 	private createEvent(event: LogEvent): HumioEvent {
 		const context = combineMaps(event.context, event.message.context);
+		const eventContext = new Map<string, any>([
+			["Level", LogEventLevel[event.level]],
+			["Message", event.message.message],
+			["RenderedMessage", event.message.renderedMessage],
 
-		context.set("Level", LogEventLevel[event.level]);
-		context.set("Message", event.message.message);
-		context.set("RenderedMessage", event.message.renderedMessage);
-
-		return HumioEvent.now(context);
+			["Properties", context],
+		]);
+		return HumioEvent.now(eventContext);
 	}
 
 	private async sendBatch(): Promise<void> {
