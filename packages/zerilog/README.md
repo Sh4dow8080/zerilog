@@ -32,8 +32,8 @@ import { LoggerConfiguration } from "zerilog";
 // npm install @zerilog/consolezink
 import ConsoleZink from "@zerilog/consolezink";
 
-const logger = new LoggerConfiguration().writeTo
-	.sink(new ConsoleZink())
+const logger = new LoggerConfiguration()
+	.writeTo.sink(new ConsoleZink())
 	.createLogger();
 
 logger.information("Hello World");
