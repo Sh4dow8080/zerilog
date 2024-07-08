@@ -57,6 +57,8 @@ export class Zerilog {
 		this.log(LogEventLevel.Error, message, ...args);
 	public fatal = (message: string, ...args: any[]) =>
 		this.log(LogEventLevel.Fatal, message, ...args);
+	public write = (level: LogEventLevel, message: string, ...args: any[]) =>
+		this.log(level, message, ...args);
 
 	public forContext(name: string, value: any) {
 		const newContext = new Map(this.context);
