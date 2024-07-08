@@ -45,7 +45,7 @@ logger.information("Support for {Variable} strings!", "Formatted");
 Zerilog allows you to define custom "zinks" (destinations for your logs). Here's a simple example of a console zink:
 
 ```ts
-import { ILogZink, LogEvent, LogEventLevel } from "zerilog";
+import { ILogZink, LogEvent } from "zerilog";
 
 class ConsoleZink implements ILogZink {
 	log(event: LogEvent): void {
