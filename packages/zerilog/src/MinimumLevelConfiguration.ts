@@ -10,21 +10,18 @@ export class MinimumLevelConfiguration {
 		private onSetMinimumLevel: (resolver: LogEventLevelResolver) => void
 	) {}
 
-	private _set(level: LogEventLevel) {
+	public set(level: LogEventLevel) {
 		this.onSetMinimumLevel((_) => level);
 
 		return this.loggerConfiguration;
 	}
 
-	public verbose = () => this._set(LogEventLevel.Verbose);
-	public debug = () => this._set(LogEventLevel.Debug);
-	public information = () => this._set(LogEventLevel.Information);
-	public warning = () => this._set(LogEventLevel.Warning);
-	public error = () => this._set(LogEventLevel.Error);
-	public fatal = () => this._set(LogEventLevel.Fatal);
-	public set(level: LogEventLevel) {
-		return this._set(level);
-	}
+	public verbose = () => this.set(LogEventLevel.Verbose);
+	public debug = () => this.set(LogEventLevel.Debug);
+	public information = () => this.set(LogEventLevel.Information);
+	public warning = () => this.set(LogEventLevel.Warning);
+	public error = () => this.set(LogEventLevel.Error);
+	public fatal = () => this.set(LogEventLevel.Fatal);
 
 	public dynamic(levelResolver: LogEventLevelResolver) {
 		this.onSetMinimumLevel(levelResolver);
