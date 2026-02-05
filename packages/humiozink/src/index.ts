@@ -47,9 +47,12 @@ export default class HumioZink implements ILogZink {
 	private async sendBatch(): Promise<void> {
 		if (this.batch.length === 0) return;
 
+		const currentBatch = this.batch;
+		this.batch = [];
+
 		const request = stringifier([
 			{
-				events: this.batch,
+				events: currentBatch,
 				tags: this.configuration.tags,
 			},
 		]);
