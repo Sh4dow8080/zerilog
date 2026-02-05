@@ -3,8 +3,13 @@ import { HumioEvent } from "./HumioEvent";
 import { HumioZinkConfiguration } from "./HumioZinkConfiguration";
 import stringifier from "./stringifier";
 
+interface BatchEntry {
+	event: HumioEvent;
+	retries: number;
+}
+
 export default class HumioZink implements ILogZink {
-	private batch: HumioEvent[] = [];
+	private batch: BatchEntry[] = [];
 	private timer: NodeJS.Timeout | undefined;
 
 	private get configuration(): HumioZinkConfiguration {
@@ -12,6 +17,7 @@ export default class HumioZink implements ILogZink {
 			url: "https://cloud.humio.com",
 			batchSizeLimit: 50,
 			batchTimeout: 5000,
+			maxRetries: 3,
 			tags: {},
 			...this._configuration,
 		};
@@ -25,7 +31,7 @@ export default class HumioZink implements ILogZink {
 
 	log(event: LogEvent): void {
 		const humioEvent = this.createEvent(event);
-		this.batch.push(humioEvent);
+		this.batch.push({ event: humioEvent, retries: 0 });
 
 		if (this.batch.length < this.configuration.batchSizeLimit) return;
 
@@ -52,29 +58,46 @@ export default class HumioZink implements ILogZink {
 
 		const request = stringifier([
 			{
-				events: currentBatch,
+				events: currentBatch.map((entry) => entry.event),
 				tags: this.configuration.tags,
 			},
 		]);
-		const response = await fetch(
-			this.configuration.url + "/api/v1/ingest/humio-structured",
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					"Authorization": `Bearer ${this.configuration.ingestToken}`,
-				},
-				body: request,
-				keepalive: true,
-			}
-		);
+		try {
+			const response = await fetch(
+				this.configuration.url + "/api/v1/ingest/humio-structured",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${this.configuration.ingestToken}`,
+					},
+					body: request,
+					keepalive: true,
+				}
+			);
 
-		if (!response.ok) {
-			console.error("[Zerilog/HumioZink] Failed to send batch", response);
-			return;
+			if (!response.ok) {
+				console.error("[Zerilog/HumioZink] Failed to send batch", response);
+				this.requeueFailedEntries(currentBatch);
+			}
+		} catch (error) {
+			console.error("[Zerilog/HumioZink] Failed to send batch", error);
+			this.requeueFailedEntries(currentBatch);
+		}
+	}
+
+	private requeueFailedEntries(entries: BatchEntry[]): void {
+		const retryable = entries
+			.map((entry) => ({ ...entry, retries: entry.retries + 1 }))
+			.filter((entry) => entry.retries <= this.configuration.maxRetries);
+
+		if (retryable.length < entries.length) {
+			console.warn(
+				`[Zerilog/HumioZink] Dropped ${entries.length - retryable.length} events after max retries`
+			);
 		}
 
-		this.batch = [];
+		this.batch = [...retryable, ...this.batch];
 	}
 
 	[Symbol.dispose]() {

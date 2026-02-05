@@ -12,4 +12,7 @@ export interface HumioZinkConfiguration {
 
 	// The frequency at which the batch is sent to Humio
 	batchTimeout?: number;
+
+	// The maximum number of times a failed event will be retried before being dropped
+	maxRetries?: number;
 }
