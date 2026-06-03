@@ -6,6 +6,7 @@
         "moduleResolution": "node",
         "sourceMap": false,
         "resolveJsonModule": true,
-        "declaration": true
+        "declaration": true,
+        "skipLibCheck": true
     }
 }
