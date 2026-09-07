@@ -25,7 +25,7 @@ export default class HumioZink implements ILogZink {
 
 	constructor(private readonly _configuration: HumioZinkConfiguration) {
 		this.timer = setInterval(() => {
-			this.sendBatch();
+			this.sendBatchDetached();
 		}, this.configuration.batchTimeout);
 	}
 
@@ -35,7 +35,17 @@ export default class HumioZink implements ILogZink {
 
 		if (this.batch.length < this.configuration.batchSizeLimit) return;
 
-		this.sendBatch();
+		this.sendBatchDetached();
+	}
+
+	// Nothing awaits the timer, log() or dispose() sends, so a rejection escaping
+	// sendBatch surfaces as an unhandled rejection — which terminates the process
+	// under Node's default --unhandled-rejections=throw, taking the host
+	// application down because its logger could not reach Humio.
+	private sendBatchDetached(): void {
+		this.sendBatch().catch((error) => {
+			console.error("[Zerilog/HumioZink] Failed to send batch", error);
+		});
 	}
 
 	private createEvent(event: LogEvent): HumioEvent {
@@ -56,13 +66,14 @@ export default class HumioZink implements ILogZink {
 		const currentBatch = this.batch;
 		this.batch = [];
 
-		const request = stringifier([
-			{
-				events: currentBatch.map((entry) => entry.event),
-				tags: this.configuration.tags,
-			},
-		]);
 		try {
+			const request = stringifier([
+				{
+					events: currentBatch.map((entry) => entry.event),
+					tags: this.configuration.tags,
+				},
+			]);
+
 			const response = await fetch(
 				this.configuration.url + "/api/v1/ingest/humio-structured",
 				{
@@ -105,7 +116,7 @@ export default class HumioZink implements ILogZink {
 			clearInterval(this.timer);
 		}
 
-		this.sendBatch();
+		this.sendBatchDetached();
 	}
 }
 
